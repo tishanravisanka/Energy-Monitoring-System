@@ -4,6 +4,7 @@ import com.programming.dsproject.dto.DeviceDTO;
 import com.programming.dsproject.entity.Devices;
 import com.programming.dsproject.repo.DeviceRepo;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class DeviceService {
 
     @Autowired
@@ -22,6 +24,8 @@ public class DeviceService {
     private ModelMapper modelMapper;
 
     public List<DeviceDTO> getDevice(){
+
+        log.info("Placing Order");
         List<Devices>devicesList=deviceRepo.findAll();
         return modelMapper.map(devicesList, new TypeToken<List<DeviceDTO>>(){}.getType());
     }
@@ -39,6 +43,10 @@ public class DeviceService {
     public boolean deleteDevices(DeviceDTO deviceDTO){
         deviceRepo.delete(modelMapper.map(deviceDTO,Devices.class));
         return true;
+    }
+
+    public boolean getdDeviseExist(String deviceName){
+        return deviceRepo.findById(deviceName).isPresent();
     }
 
     public DeviceDTO getDeviceByEmail(String email){

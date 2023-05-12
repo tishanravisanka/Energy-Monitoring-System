@@ -2,11 +2,13 @@ package com.programming.dsproject.authservice.controller;
 
 import com.programming.dsproject.authservice.dto.UserDTO;
 import com.programming.dsproject.authservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/user")
+@Slf4j
 public class userController {
     @Autowired
     private UserService userService;

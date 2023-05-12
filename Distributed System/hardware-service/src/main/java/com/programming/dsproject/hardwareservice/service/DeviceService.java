@@ -6,6 +6,7 @@ import com.programming.dsproject.hardwareservice.event.NotificationEvent;
 import com.programming.dsproject.hardwareservice.repo.DeviceRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,6 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class DeviceService {
 
     private final KafkaTemplate<String, NotificationEvent> kafkaTemplate;
