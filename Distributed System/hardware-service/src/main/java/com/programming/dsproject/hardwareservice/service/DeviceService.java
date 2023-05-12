@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @Transactional
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class DeviceService {
 
     private final KafkaTemplate<String, NotificationEvent> kafkaTemplate;
+    private final WebClient webClient;
 
     @Autowired
     private DeviceRepo deviceRepo;
@@ -25,11 +27,25 @@ public class DeviceService {
     private ModelMapper modelMapper;
 
     public DeviceDTO saveDevicesNoData(DeviceDTO deviceDTO){
-        deviceRepo.save(modelMapper.map(deviceDTO, Device_1.class));
+        String deviceName = "1";
+
         if(Integer.parseInt(deviceDTO.getTemperature())>50){
-            NotificationSend(new NotificationEvent("1",deviceDTO.getTemperature()));
+            NotificationSend(new NotificationEvent(deviceName,deviceDTO.getTemperature()));
         }
+        if(chkDeviceAvailability(deviceName)){
+            deviceRepo.save(modelMapper.map(deviceDTO, Device_1.class));
+        }
+
         return deviceDTO;
+    }
+
+    public boolean chkDeviceAvailability(String deviceName){
+        return Boolean.TRUE.equals(webClient.get()
+                .uri("http://localhost:8181/api/devicelist/getDeviceExist",
+                        uriBuilder -> uriBuilder.queryParam("deviceName", deviceName).build())
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block());
     }
 
     public void NotificationSend(NotificationEvent event){
