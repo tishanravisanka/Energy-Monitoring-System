@@ -43,7 +43,7 @@ public class DeviceService {
 
     public boolean chkDeviceAvailability(String deviceName){
         return Boolean.TRUE.equals(webClient.get()
-                .uri("http://localhost:8181/api/devicelist/getDeviceExist",
+                .uri("http://device-service/api/devicelist/getDeviceExist",
                         uriBuilder -> uriBuilder.queryParam("deviceName", deviceName).build())
                 .retrieve()
                 .bodyToMono(Boolean.class)
