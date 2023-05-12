@@ -31,24 +31,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $devices = Devices::where('email',Auth  ::user()->email)->get();
-
-        /*
-
+        //$devices = Devices::where('email',Auth  ::user()->email)->get();
+      
         $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceData/'.Auth ::user()->email.'';
         
         $client = new \GuzzleHttp\Client();
         $request = $client->get($URI);
         $response = $request->getBody()->getContents();
-        $json = json_decode($response);
-
-        */
+        $devices = json_decode($response,TRUE);
+        //dd($devices);
 
         $deviceData = null;
         $i = 0;
         foreach($devices as $row){
+            
             $deviceData[$i] = DB::table('device_'.$row->device_name)->orderBy('created_at', 'desc')->first();
-
+           
             /*
             $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceNoData/'.$row->device_name.'';
         
@@ -212,7 +210,18 @@ class HomeController extends Controller
 
         if($request->dateRange == null) {
             $mytime = Carbon::now()->subDays(1);
-            $data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) > ?', [$mytime])->get();
+
+            //$data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) > ?', [$mytime])->get();
+
+            $URI = 'http://127.0.0.1:8080/api/v/user/getDevicNoeData/'.[$mytime].'';
+        
+            $client = new \GuzzleHttp\Client();
+            $request = $client->get($URI);
+            $response = $request->getBody()->getContents();
+            $data = json_decode($response,TRUE);
+
+
+
         }
         else {
 
@@ -228,19 +237,18 @@ class HomeController extends Controller
             $startDate = new Carbon($yearStart.'-'.$monthStart.'-'.$dateStart.' 00:00:01');
             $endDate = new Carbon($yearEnd.'-'.$monthEnd.'-'.$dateEnd.' 23:59:59');
 
-            $data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) < ?', [$endDate])->whereRaw('DATE(created_at) > ?', [$startDate])->get();
+            //$data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) < ?', [$endDate])->whereRaw('DATE(created_at) > ?', [$startDate])->get();
 
             $URI = 'http://127.0.0.1:8080/api/v/user/getDeviceData/'.[$endDate].'/'.[$startDate].'/'.$request['deviceNo'].'';
         
-             $client = new \GuzzleHttp\Client();
+            $client = new \GuzzleHttp\Client();
             $request = $client->get($URI);
             $response = $request->getBody()->getContents();
-            $json = json_decode($response,TRUE);
+            $data = json_decode($response,TRUE);
 
-            dd($json);
-            return $json;
+           
 
-            // return dd($data);
+            return dd($data);
         
 
         }
@@ -250,9 +258,9 @@ class HomeController extends Controller
 
     public function  deviceList()
     {
-        $data = Devices::where('email',Auth::user()->email)->get();;
+        //$data = Devices::where('email',Auth::user()->email)->get();;
 
-        /*
+        
 
         $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceData/'.Auth ::user()->email.'';
         
@@ -261,7 +269,7 @@ class HomeController extends Controller
         $response = $request->getBody()->getContents();
         $data = json_decode($response);
 
-        */
+        
 
     	return view('deviceList', compact('data'));
     }
@@ -312,6 +320,15 @@ class HomeController extends Controller
         }
 
         $data = Devices::where('email',Auth::user()->email)->get();;
+        /*
+        $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceData/'.Auth ::user()->email.'';
+        
+        $client = new \GuzzleHttp\Client();
+        $request = $client->get($URI);
+        $response = $request->getBody()->getContents();
+        $data = json_decode($response);
+        */
+
     	return view('deviceList', compact('data'));
         return redirect()-> back()->with('success',"Data edited successfully");
     }
