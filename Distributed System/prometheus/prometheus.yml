@@ -1,0 +1,23 @@
+global:
+  scrape_interval:     10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: 'hardware_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['hardware-service:8080']
+        labels:
+          application: 'Hardware Service Application'
+  - job_name: 'auth_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['auth-service:8080']
+        labels:
+          application: 'Auth Service Application'
+  - job_name: 'notification_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['notification-service:8080']
+        labels:
+          application: 'Notification Service Application'
