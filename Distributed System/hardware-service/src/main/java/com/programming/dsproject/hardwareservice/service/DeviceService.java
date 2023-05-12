@@ -26,9 +26,10 @@ public class DeviceService {
 
     public DeviceDTO saveDevicesNoData(DeviceDTO deviceDTO){
         deviceRepo.save(modelMapper.map(deviceDTO, Device_1.class));
-        NotificationSend(new NotificationEvent("1",deviceDTO.getTemperature()));
+        if(Integer.parseInt(deviceDTO.getTemperature())>50){
+            NotificationSend(new NotificationEvent("1",deviceDTO.getTemperature()));
+        }
         return deviceDTO;
-
     }
 
     public void NotificationSend(NotificationEvent event){
