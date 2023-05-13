@@ -31,32 +31,27 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$devices = Devices::where('email',Auth  ::user()->email)->get();
+        $devices = Devices::where('email',Auth  ::user()->email)->get();
 
         //dd($devices);
       
-        
+        /*
         $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceData/'.Auth ::user()->email.'';
         
         $client = new \GuzzleHttp\Client();
         $request = $client->get($URI);
         $response = $request->getBody()->getContents();
         $array = json_decode($response,TRUE);
-        //dd($devices['device_name']);
         
         $devices = collect($array);
-        //dd($devices);
+        */
 
         $deviceData = null;
         $i = 0;
         foreach($devices as $row){
-            dd($row['device_name']);
-            if (array_key_exists('device_name', $row)) {
+           
                 $deviceData[$i] = DB::table('device_'.$row->device_name)->orderBy('created_at', 'desc')->first();
-            }else{
-                $deviceData[$i] = null;
-            }
-            
+        
             /*
             $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceNoData/'.$row->device_name.'';
         
@@ -69,17 +64,15 @@ class HomeController extends Controller
 
             if($deviceData[$i] == null){
                 // $deviceData[$i] = array('temperature' => 'NA', 'moisture' => 'NA', 'light' => 'NA', 'fertility' => 'NA');
-                if ($i != 0) {
-                    $deviceData[$i] = $deviceData[$i-1];
-                }
-                
-                $deviceData[$i]['temperature'] ="NA";
-                $deviceData[$i]['humidity'] ="NA";
-                $deviceData[$i]['heatIndex'] ="NA";
-                $deviceData[$i]['voltage'] ="NA";
-                $deviceData[$i]['current'] ="NA";
-                $deviceData[$i]['power'] ="NA";
-                $deviceData[$i]['frequency'] ="NA";
+               
+                $deviceData[$i] = $deviceData[$i-1];
+                $deviceData[$i]->temperature ="NA";
+                $deviceData[$i]->humidity ="NA";
+                $deviceData[$i]->heatIndex ="NA";
+                $deviceData[$i]->voltage ="NA";
+                $deviceData[$i]->current ="NA";
+                $deviceData[$i]->power ="NA";
+                $deviceData[$i]->frequency ="NA";
             }
             $i++;
         }
@@ -200,7 +193,6 @@ class HomeController extends Controller
 
     public function deviceNo(request $request)
     {
-        dd($request['deviceNo']);
 
         $environment = DB::table('device_'.$request['deviceNo'])->get();
 
@@ -224,15 +216,16 @@ class HomeController extends Controller
         if($request->dateRange == null) {
             $mytime = Carbon::now()->subDays(1);
 
-            //$data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) > ?', [$mytime])->get();
+            $data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) > ?', [$mytime])->get();
 
+            /*
             $URI = 'http://127.0.0.1:8080/api/v/user/getDevicNoeData/'.[$mytime].'';
         
             $client = new \GuzzleHttp\Client();
             $request = $client->get($URI);
             $response = $request->getBody()->getContents();
             $data = json_decode($response,TRUE);
-
+            */
 
 
         }
@@ -250,18 +243,19 @@ class HomeController extends Controller
             $startDate = new Carbon($yearStart.'-'.$monthStart.'-'.$dateStart.' 00:00:01');
             $endDate = new Carbon($yearEnd.'-'.$monthEnd.'-'.$dateEnd.' 23:59:59');
 
-            //$data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) < ?', [$endDate])->whereRaw('DATE(created_at) > ?', [$startDate])->get();
+            $data = DB::table('device_'.$request['deviceNo'])->whereRaw('DATE(created_at) < ?', [$endDate])->whereRaw('DATE(created_at) > ?', [$startDate])->get();
 
+            /*
             $URI = 'http://127.0.0.1:8080/api/v/user/getDeviceData/'.[$endDate].'/'.[$startDate].'/'.$request['deviceNo'].'';
         
             $client = new \GuzzleHttp\Client();
             $request = $client->get($URI);
             $response = $request->getBody()->getContents();
             $data = json_decode($response,TRUE);
-
+            */
            
 
-            return dd($data);
+            //return dd($data);
         
 
         }

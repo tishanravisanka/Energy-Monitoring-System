@@ -45,7 +45,7 @@
                                     <!-- small box -->
                                     <div class="small-box bg-green">
                                         <div class="inner">
-                                            <h3>Device <sup style="font-size: 20px">{{$devices['device_name']}}</sup></h3>
+                                            <h3>Device <sup style="font-size: 20px">{{$devices->device_name}}</sup></h3>
 
                                             <span class="info-box-number"><small>Temprature
                                                 </small>{{$deviceData[$i]->temperature}}&deg;C</span><br>
@@ -66,7 +66,7 @@
                                         <div class="icon">
                                             <i class="fa fa-tree"></i>
                                         </div>
-                                        <a onclick="setDeviceId('{{$devices['device_name']}}')"
+                                        <a onclick="setDeviceId('{{$devices->device_name}}')"
                                             class="small-box-footer roomlink">More info <i
                                                 class="fa fa-arrow-circle-right"></i></a>
 
