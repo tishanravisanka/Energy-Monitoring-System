@@ -32,21 +32,31 @@ class HomeController extends Controller
     public function index()
     {
         //$devices = Devices::where('email',Auth  ::user()->email)->get();
+
+        //dd($devices);
       
+        
         $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceData/'.Auth ::user()->email.'';
         
         $client = new \GuzzleHttp\Client();
         $request = $client->get($URI);
         $response = $request->getBody()->getContents();
-        $devices = json_decode($response,TRUE);
+        $array = json_decode($response,TRUE);
+        //dd($devices['device_name']);
+        
+        $devices = collect($array);
         //dd($devices);
 
         $deviceData = null;
         $i = 0;
         foreach($devices as $row){
+            dd($row['device_name']);
+            if (array_key_exists('device_name', $row)) {
+                $deviceData[$i] = DB::table('device_'.$row->device_name)->orderBy('created_at', 'desc')->first();
+            }else{
+                $deviceData[$i] = null;
+            }
             
-            $deviceData[$i] = DB::table('device_'.$row->device_name)->orderBy('created_at', 'desc')->first();
-           
             /*
             $URI = 'http://127.0.0.1:8080/api/v/device/getDeviceNoData/'.$row->device_name.'';
         
@@ -59,14 +69,17 @@ class HomeController extends Controller
 
             if($deviceData[$i] == null){
                 // $deviceData[$i] = array('temperature' => 'NA', 'moisture' => 'NA', 'light' => 'NA', 'fertility' => 'NA');
-                $deviceData[$i] = $deviceData[$i-1];
-                $deviceData[$i]->temperature ="NA";
-                $deviceData[$i]->humidity ="NA";
-                $deviceData[$i]->heatIndex ="NA";
-                $deviceData[$i]->voltage ="NA";
-                $deviceData[$i]->current ="NA";
-                $deviceData[$i]->power ="NA";
-                $deviceData[$i]->frequency ="NA";
+                if ($i != 0) {
+                    $deviceData[$i] = $deviceData[$i-1];
+                }
+                
+                $deviceData[$i]['temperature'] ="NA";
+                $deviceData[$i]['humidity'] ="NA";
+                $deviceData[$i]['heatIndex'] ="NA";
+                $deviceData[$i]['voltage'] ="NA";
+                $deviceData[$i]['current'] ="NA";
+                $deviceData[$i]['power'] ="NA";
+                $deviceData[$i]['frequency'] ="NA";
             }
             $i++;
         }
@@ -187,7 +200,7 @@ class HomeController extends Controller
 
     public function deviceNo(request $request)
     {
-        //dd($request['deviceNo']);
+        dd($request['deviceNo']);
 
         $environment = DB::table('device_'.$request['deviceNo'])->get();
 
