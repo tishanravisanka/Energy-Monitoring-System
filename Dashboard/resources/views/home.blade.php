@@ -39,13 +39,13 @@
                                 <div hidden>
                                     {{($i = 0)}}
                                 </div>
-
+                                @if ($i!= 0)
                                 @foreach ( $devices as $devices )
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
                                     <div class="small-box bg-green">
                                         <div class="inner">
-                                            <h3>Device <sup style="font-size: 20px">{{$devices->deviceName}}</sup></h3>
+                                            <h3>Device <sup style="font-size: 20px">{{$devices->device_name}}</sup></h3>
 
                                             <span class="info-box-number"><small>Temprature
                                                 </small>{{$deviceData[$i]->temperature}}&deg;C</span><br>
@@ -66,7 +66,7 @@
                                         <div class="icon">
                                             <i class="fa fa-tree"></i>
                                         </div>
-                                        <a onclick="setDeviceId('{{$devices->deviceName}}')"
+                                        <a onclick="setDeviceId('{{$devices->device_name}}')"
                                             class="small-box-footer roomlink">More info <i
                                                 class="fa fa-arrow-circle-right"></i></a>
 
@@ -75,6 +75,10 @@
                                 </div>
 
                                 @endforeach
+                                @endif
+
+
+
                                 @if ($i== 0)
                                 <div class="error-content">
                                     <h3><i class="fa fa-warning text-yellow"></i> Oops! No Devices Available.</h3>
@@ -102,6 +106,7 @@
 
 <script>
     function setDeviceId(val) {
+        
         document.getElementById('deviceNo').value = val;
         document.getElementById('devices-form').submit();
     }

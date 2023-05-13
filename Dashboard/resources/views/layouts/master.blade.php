@@ -168,11 +168,13 @@
             method: "GET",
 
             success: function (data) {
+                console.log('data',data);
 
                 // var i = 0;
                 // window.alert("hi");
                 var list = [];
                 $.each(data, function (key, value) {
+                    console.log('val',value);
                         // push html data dynamically
                         list.push(
                                     "<li onclick='setDeviceId(\"" +
