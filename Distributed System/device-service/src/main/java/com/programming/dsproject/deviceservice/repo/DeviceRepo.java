@@ -1,6 +1,6 @@
-package com.programming.dsproject.repo;
+package com.programming.dsproject.deviceservice.repo;
 
-import com.programming.dsproject.entity.Devices;
+import com.programming.dsproject.deviceservice.entity.Devices;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

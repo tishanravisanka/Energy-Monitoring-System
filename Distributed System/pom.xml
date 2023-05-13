@@ -22,6 +22,7 @@
         <module>auth-service</module>
         <module>hardware-service</module>
         <module>device-service</module>
+        <module>availability-check-service</module>
     </modules>
 
     <properties>

@@ -27,3 +27,9 @@ scrape_configs:
       - targets: ['notification-service:8080']
         labels:
           application: 'Notification Service Application'
+  - job_name: 'availability-check-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['availability-check-service:8080']
+        labels:
+          application: 'Availability Check Service Application'

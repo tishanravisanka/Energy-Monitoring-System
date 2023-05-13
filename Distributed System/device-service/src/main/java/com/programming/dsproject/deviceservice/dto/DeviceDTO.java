@@ -1,19 +1,15 @@
-package com.programming.dsproject.entity;
+package com.programming.dsproject.deviceservice.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Devices {
 
-    @Id
+public class DeviceDTO {
+
     private String device_name;
     private String min_temperature;
     private String max_temperature;
@@ -22,8 +18,6 @@ public class Devices {
     private String min_voltage;
     private String max_voltage;
     private String email;
-
-
 
 
 }

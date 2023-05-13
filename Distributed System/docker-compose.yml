@@ -191,7 +191,17 @@ services:
       - discovery-server
       - api-gateway
       - postgres-device
-    
+
+  ## Availability-Check-Service Docker Compose Config
+  availability-check-service:
+    container_name: availability-check-service
+    image: microservices-dsproject/availability-check-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-server
+      - api-gateway
+
   ## Prometheus
   prometheus:
     image: prom/prometheus:v2.37.1

@@ -1,8 +1,8 @@
-package com.programming.dsproject.service;
+package com.programming.dsproject.deviceservice.service;
 
-import com.programming.dsproject.dto.DeviceDTO;
-import com.programming.dsproject.entity.Devices;
-import com.programming.dsproject.repo.DeviceRepo;
+import com.programming.dsproject.deviceservice.dto.DeviceDTO;
+import com.programming.dsproject.deviceservice.entity.Devices;
+import com.programming.dsproject.deviceservice.repo.DeviceRepo;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

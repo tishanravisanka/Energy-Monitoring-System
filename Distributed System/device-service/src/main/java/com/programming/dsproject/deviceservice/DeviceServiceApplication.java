@@ -1,4 +1,4 @@
-package com.programming.dsproject;
+package com.programming.dsproject.deviceservice;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
