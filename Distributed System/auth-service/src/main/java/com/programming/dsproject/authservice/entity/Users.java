@@ -1,12 +1,9 @@
 package com.programming.dsproject.authservice.entity;
 
-        import jakarta.persistence.Table;
+        import jakarta.persistence.*;
         import lombok.AllArgsConstructor;
         import lombok.Data;
         import lombok.NoArgsConstructor;
-
-        import jakarta.persistence.Entity;
-        import jakarta.persistence.Id;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +12,8 @@ package com.programming.dsproject.authservice.entity;
 @Data
 public class Users {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String password;

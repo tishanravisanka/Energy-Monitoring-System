@@ -39,4 +39,5 @@ mongo-data
 /postgres/
 /postgres-auth/
 /postgres-hardware/
+/postgres-device/
 /grafana/
